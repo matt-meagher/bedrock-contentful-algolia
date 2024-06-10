@@ -25,6 +25,9 @@ export default new Router()
   .match('/example/hello-world', {
     edge_function: './functions/edge-function.js',
   })
+  .match('/example/hello-world-2', {
+    edge_function: './functions/edge-function.js',
+  })
   .match('/example/generate.json', {
     edge_function: './functions/general/generate-json.js',
   })
