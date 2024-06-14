@@ -1,4 +1,4 @@
-import algoliasearchHelper from 'algoliasearch-helper';
+// import algoliasearchHelper from 'algoliasearch-helper';
 import algoliasearch from 'algoliasearch';
 
 export async function handleHttpRequest(request, context) {
@@ -30,8 +30,8 @@ export async function handleHttpRequest(request, context) {
   }
 
   const client = await algoliasearch(context.environmentVars.ALGOLIA_APP_ID, context.environmentVars.ALGOLIA_ADMIN_KEY);
-  const helper = await algoliasearchHelper(client, 'shopify_products', algoliaParameters);
-  const res = helper.searchOnce();
-  console.log("🚀 ~ handleHttpRequest ~ res:", res)
+  // const helper = await algoliasearchHelper(client, 'shopify_products', algoliaParameters);
+  // const res = helper.searchOnce();
+  console.log("🚀 ~ handleHttpRequest ~ res:", client)
   
 }
