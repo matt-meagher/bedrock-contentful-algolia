@@ -28,6 +28,9 @@ export default new Router()
   .match('/example/hello-world-3', {
     edge_function: './functions/edge-function.js',
   })
+  match('/algolia-helper-test', {
+    edge_function: './functions/algolia-helper.js',
+  })
   .match('/example/generate.json', {
     edge_function: './functions/general/generate-json.js',
   })
