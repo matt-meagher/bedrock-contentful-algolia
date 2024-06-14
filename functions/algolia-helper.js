@@ -1,6 +1,6 @@
 import algoliasearchHelper from 'algoliasearch-helper';
 //https://github.com/algolia/react-instantsearch/issues/3547
-import algoliasearch from 'algoliasearch/dist/algoliasearch-lite.esm.browser';
+import algoliasearch from 'algoliasearch';
 import { createNodeHttpRequester } from '@algolia/requester-node-http';
 
 export async function handleHttpRequest(request, context) {
