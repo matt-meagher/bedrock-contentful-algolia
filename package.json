@@ -35,6 +35,7 @@
   },
   "repository": "git@github.com:edgio-docs/edgio-v7-edge-functions-example.git",
   "dependencies": {
+    "@algolia/requester-fetch": "^4.23.3",
     "@planetscale/database": "^1.10.0",
     "algoliasearch": "^4.23.3",
     "algoliasearch-helper": "^3.21.0",
