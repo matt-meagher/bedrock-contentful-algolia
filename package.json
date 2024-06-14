@@ -30,7 +30,8 @@
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0"
+    "tailwindcss": "^3.3.0",
+    "typescript": "5.4.5"
   },
   "repository": "git@github.com:edgio-docs/edgio-v7-edge-functions-example.git",
   "dependencies": {
