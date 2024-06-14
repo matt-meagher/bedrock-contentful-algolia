@@ -1,7 +1,7 @@
 import algoliasearchHelper from 'algoliasearch-helper';
 //https://github.com/algolia/react-instantsearch/issues/3547
 import algoliasearch from 'algoliasearch/dist/algoliasearch-lite.esm.browser';
-import { createFetchRequester } from '@algolia/requester-fetch';
+import { createNodeHttpRequester } from '@algolia/requester-node-http';
 
 export async function handleHttpRequest(request, context) {
   const algoliaParameters = {
@@ -31,7 +31,7 @@ export async function handleHttpRequest(request, context) {
     hitsPerPage: 8
   }
 
-  const client = await algoliasearch(context.environmentVars.ALGOLIA_APP_ID, context.environmentVars.ALGOLIA_ADMIN_KEY, { requester: createFetchRequester() });
+  const client = await algoliasearch(context.environmentVars.ALGOLIA_APP_ID, context.environmentVars.ALGOLIA_ADMIN_KEY, { requester: createNodeHttpRequester() });
   const helper = await algoliasearchHelper(client, 'shopify_products', algoliaParameters);
   // const res = await helper.searchOnce();
   const index = client.initIndex('shopify_products');
