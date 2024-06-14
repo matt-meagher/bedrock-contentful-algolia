@@ -119,7 +119,7 @@
   dependencies:
     "@algolia/requester-common" "4.23.3"
 
-"@algolia/requester-node-http@4.23.3":
+"@algolia/requester-node-http@4.23.3", "@algolia/requester-node-http@^4.23.3":
   version "4.23.3"
   resolved "https://registry.yarnpkg.com/@algolia/requester-node-http/-/requester-node-http-4.23.3.tgz#c9f94a5cb96a15f48cea338ab6ef16bbd0ff989f"
   integrity sha512-zgu++8Uj03IWDEJM3fuNl34s746JnZOWn1Uz5taV1dFyJhVM/kTNw9Ik7YJWiUNHJQXcaD8IXD1eCb0nq/aByA==
