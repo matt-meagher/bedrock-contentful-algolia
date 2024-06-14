@@ -33,7 +33,9 @@ export async function handleHttpRequest(request, context) {
 
   const client = await algoliasearch(context.environmentVars.ALGOLIA_APP_ID, context.environmentVars.ALGOLIA_ADMIN_KEY, { requester: createFetchRequester() });
   const helper = await algoliasearchHelper(client, 'shopify_products', algoliaParameters);
-  const res = await helper.searchOnce();
+  // const res = await helper.searchOnce();
+  const index = client.initIndex('shopify_products');
+  const res = await index.search('seltzer');
   console.log("🚀 ~ handleHttpRequest ~ res:", res)
 
   return new Response('Testing!');
