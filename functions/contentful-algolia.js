@@ -48,6 +48,7 @@ const fetchContentfulEntries = async (request, context) => {
   const API_URL = 'https://cdn.contentful.com';
   const envID = searchParams.get('env_id') || CONTENTFUL_ENVIRONMENT_ID || 'master';
   const contentType = searchParams.get('content_type') || 'blogPost';
+  console.log("🚀 ~ fetchContentfulEntries ~ request.body:", request.body)
   const REQUEST_URL = new URL(
     `${API_URL}/spaces/${spaceID}/environments/${envID}/entries/${request.body.sys.id}?access_token=${accessToken}`,
   );
