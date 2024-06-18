@@ -86,7 +86,7 @@ export async function handleHttpRequest(request, context) {
     const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
     const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
     await updateIndex(request, context, saveEntryParams);
-    return new Response(request.body);
+    return new Response.json({request.body});
   } catch (error) {
     console.log(error);
     throw Error(error)
