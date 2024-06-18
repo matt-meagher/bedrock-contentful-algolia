@@ -63,25 +63,27 @@ const fetchContentfulEntries = async (request, context) => {
   return resolved;
 }
 
-const buildAddObjectRequestBody = (entry) => ({
+const buildAddObjectRequestBody = (entry, objectID) => ({
   "action": "addObject",
   "body": {
     ...entry,
     // objectID is a Algolia convention. Without this we will add duplicate records
-    "objectID": entry.fields?.slug || entry.fields?.id 
+    "objectID": objectID || entry.fields?.slug || entry.fields?.id 
   },
 })
 
 export async function handleHttpRequest(request, context) {
+  const searchParams = new URL(request.url).searchParams;
 
+  const objectID = searchParams.get('object_id') 
   try {
     const entries = await fetchContentfulEntries(request, context);
     const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
-    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry));
+    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
     await updateIndex(request, context, saveEntryParams);
   } catch (error) {
     console.log(error);
   }
 
-  return new Response('Testing!');
+  return new Response(saveEntryParams);
 }
