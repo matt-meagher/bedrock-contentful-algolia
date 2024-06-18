@@ -77,9 +77,9 @@ export async function handleHttpRequest(request, context) {
   // const searchParams = new URL(request.url).searchParams;
   // const objectID = searchParams.get('object_id') 
   try {
-    const entries = await fetchContentfulEntries(request, context);
-    const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
-    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry));
+    // const entries = await fetchContentfulEntries(request, context);
+    // const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
+    // const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry));
     //await updateIndex(request, context, saveEntryParams);
     const res = await fetch('https://cat-fact.herokuapp.com/facts/', {
       edgio: {
