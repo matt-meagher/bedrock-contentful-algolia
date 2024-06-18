@@ -60,12 +60,12 @@ const fetchContentfulEntries = async (request, context) => {
       origin: 'edgio_serverless',
     }
   });
-  const responseJSON = await response.json();
+  // const responseJSON = await response.json();
   console.log("🚀 ~ fetchContentfulEntries ~ responseJSON:", responseJSON)
   // const resolved = await resolveResponse(responseJSON);
   // console.log("🚀 ~ fetchContentfulEntries ~ resolved:", resolved)
 
-  return responseJSON;
+  return response;
 }
 
 const buildAddObjectRequestBody = (entry, objectID) => ({
