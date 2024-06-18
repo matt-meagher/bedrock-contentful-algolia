@@ -50,7 +50,7 @@ const fetchContentfulEntries = async (request, context) => {
   const contentType = searchParams.get('content_type') || 'blogPost';
   console.log("🚀 ~ fetchContentfulEntries ~ request.body:", request.body)
   const REQUEST_URL = new URL(
-    `${API_URL}/spaces/${spaceID}/environments/${envID}/entries/${request.body.sys.id}?access_token=${accessToken}`,
+    `${API_URL}/spaces/${spaceID}/environments/${envID}/entries/5lMQtX9jg7D7PqsgD7le9d?access_token=${accessToken}`,
   );
 
   const spaceURL = new URL(`${API_URL}/spaces/${spaceID}/environments/${envID}/content_types/blogPost?access_token=${accessToken}`)
