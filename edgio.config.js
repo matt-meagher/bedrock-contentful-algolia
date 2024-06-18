@@ -120,6 +120,22 @@ module.exports = {
         sni_hint_and_strict_san_check: 'www.google.com',
       },
     },
+    {
+      name: 'contentful',
+      hosts: [
+        {
+          location: 'cdn.contentful.com',
+        },
+      ]
+    },
+    {
+      name: 'algolia',
+      hosts: [
+        {
+          location: 'algolia.net',
+        },
+      ]
+    }
   ],
 
   // Options for hosting serverless functions on Edgio
