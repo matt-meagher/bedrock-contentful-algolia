@@ -47,8 +47,8 @@ const fetchContentfulEntries = async (request, context) => {
   } = context.environmentVars;
 
   const API_URL = 'https://cdn.contentful.com';
-  const envID = searchParams.get('env_id') || CONTENTFUL_ENVIRONMENT_ID || 'master';
-  const contentType = searchParams.get('content_type') || 'blogPost';
+  const envID = CONTENTFUL_ENVIRONMENT_ID || 'master';
+  const contentType = 'blogPost';
   const REQUEST_URL = new URL(
     `${API_URL}/spaces/${spaceID}/environments/${envID}/entries?access_token=${accessToken}&content_type=${contentType}`,
   );
@@ -69,20 +69,22 @@ const buildAddObjectRequestBody = (entry, objectID) => ({
   "body": {
     ...entry,
     // objectID is a Algolia convention. Without this we will add duplicate records
-    "objectID": objectID || entry.fields?.slug || entry.fields?.id 
+    "objectID": entry.fields?.slug || entry.fields?.id 
   },
 })
 
 export async function handleHttpRequest(request, context) {
-  const searchParams = new URL(request.url).searchParams;
-  const objectID = searchParams.get('object_id') 
+  // const searchParams = new URL(request.url).searchParams;
+  // const objectID = searchParams.get('object_id') 
   try {
     const entries = await fetchContentfulEntries(request, context);
     const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
-    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
+    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry));
     //await updateIndex(request, context, saveEntryParams);
-    return new Response('Testing!');
+  
+    return new Response(entries);
   } catch (error) {
+    console.log("🚀 ~ handleHttpRequest ~ error:", error)
     return new Response(error);
   }
 }
