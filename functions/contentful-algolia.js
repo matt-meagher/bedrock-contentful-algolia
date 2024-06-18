@@ -82,10 +82,10 @@ export async function handleHttpRequest(request, context) {
 
   const objectID = searchParams.get('object_id') 
   try {
-    const entries = await fetchContentfulEntries(request, context);
-    const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
-    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
-    await updateIndex(request, context, saveEntryParams);
+    // const entries = await fetchContentfulEntries(request, context);
+    // const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
+    // const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
+    //await updateIndex(request, context, saveEntryParams);
     return new Response.json({body: request.body});
   } catch (error) {
     console.log(error);
