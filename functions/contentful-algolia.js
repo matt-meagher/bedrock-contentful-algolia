@@ -52,6 +52,8 @@ const fetchContentfulEntries = async (request, context) => {
     `${API_URL}/spaces/${spaceID}/environments/${envID}/entries?access_token=${accessToken}&content_type=${contentType}`,
   );
 
+  const spaceURL = new URL(`${API_URL}/spaces/${spaceID}/environments/${envID}/content_types/{content_type_id}`)
+
   const response = await fetch(REQUEST_URL.toString(), {
     edgio: {
       origin: 'edgio_serverless',
@@ -84,7 +86,7 @@ export async function handleHttpRequest(request, context) {
     return new Response(saveEntryParams);
   } catch (error) {
     console.log(error);
-    throw Error(error);
+    throw Error(error)
   }
 
 }
