@@ -78,6 +78,7 @@ const buildAddObjectRequestBody = (entry, objectID) => ({
 })
 
 export async function handleHttpRequest(request, context) {
+  console.log("🚀 ~ handleHttpRequest ~ request:", request.body)
   const searchParams = new URL(request.url).searchParams;
 
   const objectID = searchParams.get('object_id') 
@@ -86,7 +87,9 @@ export async function handleHttpRequest(request, context) {
     // const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
     // const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
     //await updateIndex(request, context, saveEntryParams);
-    return Response.json({body: request.body});
+    const res = new Response(request.body);
+    const json = res;
+    return json;
   } catch (error) {
     console.log(error);
     throw Error(error)
