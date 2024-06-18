@@ -81,8 +81,14 @@ export async function handleHttpRequest(request, context) {
     const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
     const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry));
     //await updateIndex(request, context, saveEntryParams);
-  
-    return new Response(entries);
+    const res = await fetch('https://cat-fact.herokuapp.com/facts/', {
+      edgio: {
+        origin: 'edgio_serverless',
+      }
+    });
+    console.log("🚀 ~ handleHttpRequest ~ json:", res)
+    const json = await res.json();
+    return new Response(JSON.stringify(json));
   } catch (error) {
     console.log("🚀 ~ handleHttpRequest ~ error:", error)
     return new Response(error);
