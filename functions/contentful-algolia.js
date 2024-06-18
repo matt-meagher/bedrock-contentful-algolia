@@ -76,15 +76,22 @@ const buildAddObjectRequestBody = (entry, objectID) => ({
 export async function handleHttpRequest(request, context) {
   // const searchParams = new URL(request.url).searchParams;
   // const objectID = searchParams.get('object_id') 
-  try {
-    const entries = await fetchContentfulEntries(request, context);
-    const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
-    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry));
-    //await updateIndex(request, context, saveEntryParams);
-  
-    return new Response(entries);
-  } catch (error) {
-    console.log("🚀 ~ handleHttpRequest ~ error:", error)
-    return new Response(error);
-  }
+  // try {
+  //   // const entries = await fetchContentfulEntries(request, context);
+  //   // const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
+  //   // const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry));
+  //   //await updateIndex(request, context, saveEntryParams);
+  //   // const res = await fetch('https://cat-fact.herokuapp.com/facts/', {
+  //   //   edgio: {
+  //   //     origin: 'edgio_serverless',
+  //   //   }
+  //   // });
+  //   // console.log("🚀 ~ handleHttpRequest ~ json:", res)
+  //   // const json = await res.json();
+  //   return new Response('json');
+  // } catch (error) {
+  //   console.log("🚀 ~ handleHttpRequest ~ error:", error)
+  //   return new Response(error);
+  // }
+  return new Response('json');
 }
