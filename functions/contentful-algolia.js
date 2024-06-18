@@ -49,7 +49,7 @@ const fetchContentfulEntries = async (request, context) => {
   const envID = searchParams.get('env_id') || CONTENTFUL_ENVIRONMENT_ID || 'master';
   const contentType = searchParams.get('content_type') || 'blogPost';
   const REQUEST_URL = new URL(
-    `${API_URL}/spaces/${spaceID}/environments/${envID}/entries/${request.body}?access_token=${accessToken}`,
+    `${API_URL}/spaces/${spaceID}/environments/${envID}/entries/${request.body.sys.id}?access_token=${accessToken}`,
   );
 
   const spaceURL = new URL(`${API_URL}/spaces/${spaceID}/environments/${envID}/content_types/blogPost?access_token=${accessToken}`)
@@ -64,7 +64,7 @@ const fetchContentfulEntries = async (request, context) => {
   const resolved = await resolveResponse(responseJSON);
   console.log("🚀 ~ fetchContentfulEntries ~ resolved:", resolved)
 
-  return resolved;
+  return responseJSON;
 }
 
 const buildAddObjectRequestBody = (entry, objectID) => ({
@@ -81,10 +81,10 @@ export async function handleHttpRequest(request, context) {
 
   const objectID = searchParams.get('object_id') 
   try {
-    //const entries = await fetchContentfulEntries(request, context);
-    // const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
-    // const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
-    // await updateIndex(request, context, saveEntryParams);
+    const entries = await fetchContentfulEntries(request, context);
+    const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
+    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
+    await updateIndex(request, context, saveEntryParams);
     return new Response(request.body);
   } catch (error) {
     console.log(error);
