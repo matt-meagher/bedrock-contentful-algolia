@@ -49,8 +49,10 @@ const fetchContentfulEntries = async (request, context) => {
   const envID = searchParams.get('env_id') || CONTENTFUL_ENVIRONMENT_ID || 'master';
   const contentType = searchParams.get('content_type') || 'blogPost';
   const REQUEST_URL = new URL(
-    `${API_URL}/spaces/${spaceID}/environments/${envID}/entries?access_token=${accessToken}&content_type=${contentType}`,
+    `${API_URL}/spaces/${spaceID}/environments/${envID}/entries/${request.body}?access_token=${accessToken}`,
   );
+
+  const spaceURL = new URL(`${API_URL}/spaces/${spaceID}/environments/${envID}/content_types/blogPost?access_token=${accessToken}`)
 
   const response = await fetch(REQUEST_URL.toString(), {
     edgio: {
@@ -58,7 +60,9 @@ const fetchContentfulEntries = async (request, context) => {
     }
   });
   const responseJSON = await response.json();
+  console.log("🚀 ~ fetchContentfulEntries ~ responseJSON:", responseJSON)
   const resolved = await resolveResponse(responseJSON);
+  console.log("🚀 ~ fetchContentfulEntries ~ resolved:", resolved)
 
   return resolved;
 }
@@ -77,14 +81,14 @@ export async function handleHttpRequest(request, context) {
 
   const objectID = searchParams.get('object_id') 
   try {
-    const entries = await fetchContentfulEntries(request, context);
-    const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
-    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
-    await updateIndex(request, context, saveEntryParams);
-    return new Response(saveEntryParams);
+    //const entries = await fetchContentfulEntries(request, context);
+    // const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
+    // const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
+    // await updateIndex(request, context, saveEntryParams);
+    return new Response(request.body);
   } catch (error) {
     console.log(error);
-    throw Error(error);
+    throw Error(error)
   }
 
 }
