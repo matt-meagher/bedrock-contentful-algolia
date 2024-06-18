@@ -62,8 +62,8 @@ const fetchContentfulEntries = async (request, context) => {
   });
   const responseJSON = await response.json();
   console.log("🚀 ~ fetchContentfulEntries ~ responseJSON:", responseJSON)
-  const resolved = await resolveResponse(responseJSON);
-  console.log("🚀 ~ fetchContentfulEntries ~ resolved:", resolved)
+  // const resolved = await resolveResponse(responseJSON);
+  // console.log("🚀 ~ fetchContentfulEntries ~ resolved:", resolved)
 
   return responseJSON;
 }
@@ -86,7 +86,7 @@ export async function handleHttpRequest(request, context) {
     const entries = await fetchContentfulEntries(request, context);
     const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
     const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
-    await updateIndex(request, context, saveEntryParams);
+    // await updateIndex(request, context, saveEntryParams);
     return new Response('success');
   } catch (error) {
     console.log(error);
