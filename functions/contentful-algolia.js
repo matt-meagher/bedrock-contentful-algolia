@@ -48,24 +48,21 @@ const fetchContentfulEntries = async (request, context) => {
   const API_URL = 'https://cdn.contentful.com';
   const envID = searchParams.get('env_id') || CONTENTFUL_ENVIRONMENT_ID || 'master';
   const contentType = searchParams.get('content_type') || 'blogPost';
-  console.log("🚀 ~ fetchContentfulEntries ~ request.body:", request.body)
   const REQUEST_URL = new URL(
-    `${API_URL}/spaces/${spaceID}/environments/${envID}/entries/5lMQtX9jg7D7PqsgD7le9d?access_token=${accessToken}`,
+    `${API_URL}/spaces/${spaceID}/environments/${envID}/entries?access_token=${accessToken}&content_type=${contentType}`,
   );
 
-  const spaceURL = new URL(`${API_URL}/spaces/${spaceID}/environments/${envID}/content_types/blogPost?access_token=${accessToken}`)
+  const spaceURL = new URL(`${API_URL}/spaces/${spaceID}/environments/${envID}/content_types/{content_type_id}`)
 
   const response = await fetch(REQUEST_URL.toString(), {
     edgio: {
       origin: 'edgio_serverless',
     }
   });
-  // const responseJSON = await response.json();
-  console.log("🚀 ~ fetchContentfulEntries ~ responseJSON:", responseJSON)
-  // const resolved = await resolveResponse(responseJSON);
-  // console.log("🚀 ~ fetchContentfulEntries ~ resolved:", resolved)
+  const responseJSON = await response.json();
+  const resolved = await resolveResponse(responseJSON);
 
-  return response;
+  return resolved;
 }
 
 const buildAddObjectRequestBody = (entry, objectID) => ({
@@ -78,39 +75,15 @@ const buildAddObjectRequestBody = (entry, objectID) => ({
 })
 
 export async function handleHttpRequest(request, context) {
-  console.log("🚀 ~ handleHttpRequest ~ request:", request.body)
   const searchParams = new URL(request.url).searchParams;
 
   const objectID = searchParams.get('object_id') 
   try {
-    // const entries = await fetchContentfulEntries(request, context);
-    // const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
-    // const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
-    // await updateIndex(request, context, saveEntryParams);
-
-    const searchParams = new URL(request.url).searchParams;
-    const {
-      CONTENTFUL_SPACE_ID: spaceID,
-      CONTENTFUL_ACCESS_TOKEN: accessToken,
-      CONTENTFUL_ENVIRONMENT_ID
-    } = context.environmentVars;
-  
-    const API_URL = 'https://cdn.contentful.com';
-    const envID = searchParams.get('env_id') || CONTENTFUL_ENVIRONMENT_ID || 'master';
-    const contentType = searchParams.get('content_type') || 'blogPost';
-    console.log("🚀 ~ fetchContentfulEntries ~ request.body:", request.body)
-    const REQUEST_URL = new URL(
-      `${API_URL}/spaces/${spaceID}/environments/${envID}/entries/5lMQtX9jg7D7PqsgD7le9d?access_token=${accessToken}`,
-    );
-  
-    const spaceURL = new URL(`${API_URL}/spaces/${spaceID}/environments/${envID}/content_types/blogPost?access_token=${accessToken}`)
-  
-    const response = await fetch(REQUEST_URL.toString(), {
-      edgio: {
-        origin: 'edgio_serverless',
-      }
-    });
-    return new Response(response);
+    const entries = await fetchContentfulEntries(request, context);
+    const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
+    const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
+    await updateIndex(request, context, saveEntryParams);
+    return new Response(saveEntryParams);
   } catch (error) {
     console.log(error);
     throw Error(error)
