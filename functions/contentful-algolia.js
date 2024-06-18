@@ -33,6 +33,7 @@ const updateIndex = async (request, context, params) => {
   );
 
   const algoliaJSON = await algoliaQuery.json();
+  console.log("🚀 ~ updateIndex ~ algoliaJSON:", algoliaJSON)
 
   return algoliaJSON;
 }
@@ -51,8 +52,6 @@ const fetchContentfulEntries = async (request, context) => {
   const REQUEST_URL = new URL(
     `${API_URL}/spaces/${spaceID}/environments/${envID}/entries?access_token=${accessToken}&content_type=${contentType}`,
   );
-
-  const spaceURL = new URL(`${API_URL}/spaces/${spaceID}/environments/${envID}/content_types/{content_type_id}`)
 
   const response = await fetch(REQUEST_URL.toString(), {
     edgio: {
@@ -76,17 +75,14 @@ const buildAddObjectRequestBody = (entry, objectID) => ({
 
 export async function handleHttpRequest(request, context) {
   const searchParams = new URL(request.url).searchParams;
-
   const objectID = searchParams.get('object_id') 
   try {
     const entries = await fetchContentfulEntries(request, context);
     const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
     const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
-    await updateIndex(request, context, saveEntryParams);
-    return new Response(saveEntryParams);
+    //await updateIndex(request, context, saveEntryParams);
+    return new Response('Testing!');
   } catch (error) {
-    console.log(error);
-    throw Error(error)
+    return new Response(error);
   }
-
 }
