@@ -1,4 +1,4 @@
-import resolveResponse from 'contentful-resolve-response';
+// import resolveResponse from 'contentful-resolve-response';
 
 /**
  * This is middleware meant to be used as an endpoint for a Contentful to Algolia webhook
