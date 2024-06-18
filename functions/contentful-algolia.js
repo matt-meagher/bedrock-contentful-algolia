@@ -80,7 +80,7 @@ export async function handleHttpRequest(request, context) {
     const entries = await fetchContentfulEntries(request, context);
     const searchableEntries = entries.filter(entry => entry.fields.isSearchable);
     const saveEntryParams = searchableEntries.map(searchableEntry => buildAddObjectRequestBody(searchableEntry, objectID));
-    await updateIndex(request, context, saveEntryParams);
+    // await updateIndex(request, context, saveEntryParams);
     return new Response(saveEntryParams);
   } catch (error) {
     console.log(error);
