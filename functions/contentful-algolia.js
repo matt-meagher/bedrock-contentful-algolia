@@ -88,7 +88,7 @@ export async function handleHttpRequest(request, context) {
     });
     console.log("🚀 ~ handleHttpRequest ~ json:", res)
     const json = await res.json();
-    return new Response(JSON.stringify(json));
+    return new Response(json);
   } catch (error) {
     console.log("🚀 ~ handleHttpRequest ~ error:", error)
     return new Response(error);
