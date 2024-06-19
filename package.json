@@ -48,5 +48,8 @@
     "undici": "^5.23.0",
     "url-parse": "^1.5.10",
     "whatwg-url": "^13.0.0"
-  }
+  },
+  "resolutions": {
+    "string-width": "4.2.3"
+ }
 }
